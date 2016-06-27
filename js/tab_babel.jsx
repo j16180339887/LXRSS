@@ -40,7 +40,6 @@ function retryGetFeed()
         if (response.what == "getFeed") {
             if (response.crawlerDone == true) {
                 /* rss is enough to display */
-                console.log("YES");
                 feeds = response.rss;
                 feedSites = response.Sites;
                 getFeedSites();
@@ -52,9 +51,6 @@ function retryGetFeed()
                 }
             } else {
                 /* rss is not enough to display, retry */
-                console.log("No");
-                console.log(response.size);
-                console.log(response.rss.length);
                 feeds = response.rss;
                 feedSites = response.Sites;
                 timer = setTimeout(retryGetFeed, 500);
@@ -66,7 +62,6 @@ function retryGetFeed()
 function renderArticles() {
     var ArticleComponent = React.createClass({
         handleClick: function(site) {
-            console.log("clicked ", site);
             
             var index = feedSites.map(function(obj) { return obj.site; }).indexOf(site);
             if (index !== -1) {
@@ -110,7 +105,6 @@ function renderArticles() {
                     height = maxRowHeight;
                 }
                 for (var n = 0; n < rowSize && i < feeds.length; n++) {
-                    console.log(feeds[i].time);
                     rows.push(
                         <figure style={{"height": height, "width": feeds[i].width * height / feeds[i].height, "margin-bottom": marginSize, "margin-right": marginSize}} className="imgContainer" onClick={this.handleClick.bind(this, feeds[i].site)} >
                             <a href={feeds[i].url} target="_blank">
@@ -198,7 +192,6 @@ function renderControlPanel()
 }
 
 document.querySelector("#fileToLoad").onchange = function(e) {
-    console.log("Import File");
     var fileToLoad = document.getElementById("fileToLoad").files[0];
     var fileReader = new FileReader();
     var textFromFileLoaded = "";
@@ -261,8 +254,6 @@ document.querySelector("#sidebarExportSubmit").onclick = function(e) {
 
 document.querySelector("#sidebarAddSubmit").onclick = function(e) {
     var newUrl = document.querySelector("input#textFiled").value;
-    console.log(newUrl);
-    console.log(newUrl.split(/[\s,;\t\n]+/g));
     var urls = newUrl.split(/[\s,;\t\n]+/g);
     var newfeed = [];
     for (var i in urls) {

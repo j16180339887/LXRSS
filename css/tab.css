@@ -64,10 +64,6 @@ aside {
 }
 
 img {
-/*
-    max-width: 100%;
-    max-height: 100%;
-*/
     width: 100%;
     height: 100%;
     position: absolute;
@@ -123,22 +119,6 @@ button {
 button#sidebarAddSubmit:active {
     opacity: 0.5;
 }
-
-/*
-button#sidebarRemove {
-    width: 10vh;
-    height: 100%;
-    font-size:2vh;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    margin-left: 1vw;
-    background-color: red;
-    color: white;
-    display: inline-block;
-    opacity: 1;
-}
-*/
 
 button#sidebarRemove:active {
     opacity: 0.5;

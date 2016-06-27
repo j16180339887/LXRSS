@@ -1,4 +1,5 @@
 //chrome.storage.local.clear();
+//chrome.storage.sync.clear();
 
 function Feedsite(_site)
 {
@@ -31,7 +32,6 @@ function getFeed()
     feedSize = 0;
     feeds.length = 0;
     crawlerDone = false;
-    console.log("getFeed()", feedSites);
     
     if (feedSites.length == 0) {
         crawlerDone = true;
@@ -64,9 +64,6 @@ function getFeedbyindex(i)
             var el = $(this);
             var title = el.find("title").text();
             var link = el.find('link').text()
-//            var date = JSON.parse(JSON.stringify(el.find('pubDate').text()), JSON.dateParser);
-//            var date = new Date(el.find('pubDate').text());
-//            var date = Date.parse(el.find('pubDate').text());
             var time = el.find('pubDate').text();
             
             if(!title || !link) {
@@ -155,7 +152,7 @@ function storeUserPrefs()
         return b.count - a.count;
     });
     var LXRSS = JSON.stringify({"feedSites": feedSites});
-    chrome.storage.local.set({LXRSS: LXRSS}, function() { 
+    chrome.storage.sync.set({LXRSS: LXRSS}, function() { 
         if(chrome.runtime.lastError) {
             console.error(chrome.runtime.lastError);
         }
@@ -165,17 +162,14 @@ function storeUserPrefs()
 function getUserPrefs()
 {
     var key = "LXRSS";
-    chrome.storage.local.get(key, function (Prefs) {
+    chrome.storage.sync.get(key, function (Prefs) {
         if(chrome.runtime.lastError) {
             console.error(chrome.runtime.lastError);
         }
-        console.log(Prefs);
         if (!Prefs.LXRSS) {
             userPrefsInit();
         } else {
-            console.log("getOldRss");
             feedSites = JSON.parse(Prefs.LXRSS).feedSites;
-            console.log("feedSites=", feedSites);
             getFeed();
         }
     });
