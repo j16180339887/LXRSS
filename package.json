@@ -1,0 +1,9 @@
+{
+  "name": "LXRSS",
+  "version": "1.0.0",
+  "description": "Lightweight RSS Feed Reader for Chrome",
+  "license": "MIT",
+  "devDependencies": {
+      "babel-preset-react": "latest"
+  }
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/tab.css">
+</head>
+<body>
+    <button id="showSetting" class="showSetting" type="submit" style="border: 0; background: transparent">
+        <img src="img/setting.png" alt="" />
+    </button>
+    <aside hidden="hidden">
+        <button id="hideSetting" class="showSetting" type="submit" style="border: 0; background: transparent">
+                <img src="img/close.png" alt="" />
+        </button>
+        <input type="text" name="fname" id="textFiled" placeholder="Add rss url, add white spaces for multiple links"/>
+        <div id="rssControl">
+            <input type="file" id="fileToLoad" style="display:none;" />
+            <button id="sidebarImportSubmit" style="background-color:#94ac31;">Import</button>
+            <button id="sidebarExportSubmit" style="background-color:#94ac31;">Export</button>
+            <button id="sidebarAddSubmit" style="background-color:#94ac31;">Add</button>
+            <button id="sidebarRemove" style="background-color:red;">Remove</button>
+        </div>
+        <div id="sidebarScrollList" >
+        </div>
+    </aside>
+    <article id="articles">
+    </article>
+</body>
+
+<script src="js/lib/react.min.js"></script>
+<script src="js/lib/react-dom.min.js"></script>
+<script src="js/tab.js"></script>
+
+</html>

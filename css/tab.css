@@ -1,0 +1,193 @@
+* {
+    /* For CJK fonts */
+    font-family: "PingFang TC", "Microsoft JhengHei", "Source Han Sans TC",
+                "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+                "Source Han Sans SC", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",
+                "Osaka", "メイリオ", "Meiryo", "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+    font-weight: 600!important;
+}
+
+body {
+    background: #292929;
+}
+
+#articles {
+    margin: 0 auto;
+    padding: 0;
+    margin-top: 2vh;
+
+    margin-left: 5vw;
+    margin-right: 5vw;
+
+    text-align: center;
+}
+
+.rows {
+    white-space: nowrap;
+    text-align: left;
+}
+
+aside {
+    background: #000;
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding-top: 10vh;
+    text-align: center;
+}
+
+.showSetting {
+    position: absolute;
+    top:0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    width: 3vh;
+    height: 3vh;
+}
+
+.imgContainer { 
+    height: 20vmin;
+    width: 40vmin;
+    word-wrap: break-word;
+    position: relative;
+    padding: 0;
+    background-color: rgba(1, 1, 1, 0);
+    display: inline-block;
+    margin: 0 0 0 0;
+    text-align: left;
+    font-size: 120%;
+/*    overflow: hidden;*/
+}
+
+img {
+/*
+    max-width: 100%;
+    max-height: 100%;
+*/
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.6;
+}
+
+/* Text */
+h1, h2, h3, h4, h5, h6 {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    color: #FFF;
+    text-decoration: none;
+    white-space: pre-wrap;
+    margin: 0 auto;
+}
+
+button {
+    outline:none;
+}
+
+a {
+    text-decoration: none;
+}
+
+input#textFiled {
+    height: 4vh;
+    width: 80vw;
+    border: 0;
+    padding: 0;
+    display: inline-block;
+    font-size:2vh;
+}
+
+button {
+    width: 10vh;
+    height: 100%;
+    font-size:2vh;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    margin-left: 1vw;
+    color: white;
+    display: inline-block;
+    opacity: 1;
+}
+
+button#sidebarAddSubmit:active {
+    opacity: 0.5;
+}
+
+/*
+button#sidebarRemove {
+    width: 10vh;
+    height: 100%;
+    font-size:2vh;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    margin-left: 1vw;
+    background-color: red;
+    color: white;
+    display: inline-block;
+    opacity: 1;
+}
+*/
+
+button#sidebarRemove:active {
+    opacity: 0.5;
+}
+
+div#sidebarScrollList {
+    height: 60vh;
+    width: 80vw;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-top: 3vh;
+    overflow: auto;
+    background-color: #fafafa;
+    display: block;
+}
+
+table#sidebarScrollTable {
+    text-align: left;
+    height: 5vh;
+    width: 100%;
+    table-layout: fixed;
+    border: 0;
+    padding: 0;
+}
+
+table#sidebarScrollTable tr {
+    width: 100%;
+    height: 6vh;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    font-size: 2vh;
+}
+
+table#sidebarScrollTable tr:nth-child(even) {
+    background-color: #EEEEEE;
+    width: 100%;
+    border: 0;
+}
+
+input[type="checkbox"] {
+    width: 90%;
+    height: 90%;
+}
+
+div#rssControl {
+    text-align: right;
+    margin-left: 10vw;
+    margin-top: 2vh;
+    margin-right: 10vw;
+    display: block;
+}
