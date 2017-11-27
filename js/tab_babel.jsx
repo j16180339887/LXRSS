@@ -1,7 +1,6 @@
 function Feedsite(_site)
 {
     this.site  = _site;
-    this.count = 0;
     this.available = true;
 }
 
@@ -65,10 +64,6 @@ function renderArticles() {
             
             var index = feedSites.map(function(obj) { return obj.site; }).indexOf(site);
             if (index !== -1) {
-                feedSites[index].count++;
-                feedSites.sort(function (a, b) {
-                    return b.count - a.count;
-                });
                 chrome.extension.sendMessage({ what: "getNewClick", Sites: feedSites }, function(response) {
                     setTimeout(getFeedSites, 100);
                 });
@@ -152,8 +147,7 @@ function renderControlPanel()
             urls.push(
                 <tr width="100%" height="10%" >
                     <td width="10%" ><input type="checkbox" id="selectAllCheckbox" onClick={this.handleClick} /></td>
-                    <td width="70%">Url</td>
-                    <td width="10%">Count</td>
+                    <td width="80%">Url</td>
                     <td width="10%">Health</td>
                 </tr>
             );
@@ -163,8 +157,7 @@ function renderControlPanel()
                 urls.push(
                     <tr width="100%" height="10%" >
                         <td width="10%" ><input type="checkbox" data-site={feedSites[i].site} /></td>
-                        <td width="70%" ><a href={feedSites[i].site} target="_blank">{site}</a></td>
-                        <td width="10%" >{feedSites[i].count}</td>
+                        <td width="80%" ><a href={feedSites[i].site} target="_blank">{site}</a></td>
                         <td width="10%" >{health}</td>
                     </tr>
                 );

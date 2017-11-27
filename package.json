@@ -4,6 +4,6 @@
   "description": "Lightweight RSS Feed Reader for Chrome",
   "license": "MIT",
   "devDependencies": {
-      "babel-preset-react": "latest"
+    "babel-preset-react": "latest"
   }
 }

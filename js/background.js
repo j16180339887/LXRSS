@@ -4,11 +4,10 @@
 function Feedsite(_site)
 {
     this.site  = _site;
-    this.count = 0;
     this.available = true;
 }
 
-function Feed(_title, _url, _img, _time, _site, _width, _height, _count)
+function Feed(_title, _url, _img, _time, _site, _width, _height)
 {
     this.title  = _title;
     this.url    = _url;
@@ -17,7 +16,6 @@ function Feed(_title, _url, _img, _time, _site, _width, _height, _count)
     this.site   = _site;
     this.width  = _width;
     this.height = _height;
-    this.count  = _count;
 }
 
 var crawlerDone = false;
@@ -82,26 +80,18 @@ function getFeedbyindex(i)
                 var w = 0, h = 0;
                 if(imageUrl) {
                     getImageMeta(imageUrl, function(width, height) {
-                        feeds.push(new Feed(title, link, imageUrl, time, feedSites[i].site, width, height, feedSites[i].count));
+                        feeds.push(new Feed(title, link, imageUrl, time, feedSites[i].site, width, height));
                         if (feeds.length == feedSize) {
                             /* When jobs all done */
                             feeds.sort(function (a, b) {
                                 return b.time - a.time;
                             });
-                            /* Give some random */
-                            for(var x = 0; x < feeds.length-1; x++) {
-                                if(feeds[x].count < feeds[x+1].count && Math.random() < 0.5) {
-                                    var temp = feeds[x];
-                                    feeds[x] = feeds[x+1];
-                                    feeds[x+1] = temp;
-                                }
-                            }
                             crawlerDone = true;
                         }
                     });
                 } else {
                     /* If artical does not provide image */
-                    feeds.push(new Feed(title, link, imageUrl, time, feedSites[i].site, 100, 100, feedSites[i].count));
+                    feeds.push(new Feed(title, link, imageUrl, time, feedSites[i].site, 100, 100));
                 }
             });
         });
@@ -148,9 +138,6 @@ function userPrefsInit()
 
 function storeUserPrefs()
 {
-    feedSites.sort(function (a, b) {
-        return b.count - a.count;
-    });
     var LXRSS = JSON.stringify({"feedSites": feedSites});
     chrome.storage.sync.set({LXRSS: LXRSS}, function() { 
         if(chrome.runtime.lastError) {
