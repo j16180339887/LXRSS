@@ -18,7 +18,7 @@ function Feed(_title, _url, _img, _time, _site, _width, _height)
     this.height = _height;
 }
 
-var crawlerDone = false;
+var crawlerDoneBG = false;
 var feeds = [];
 var feedSites = [];
 var feedSize = 0;
@@ -29,19 +29,19 @@ function getFeed()
 {
     feedSize = 0;
     feeds.length = 0;
-    crawlerDone = false;
-    
+    crawlerDoneBG = false;
+
     if (feedSites.length == 0) {
-        crawlerDone = true;
+        crawlerDoneBG = true;
         return;
     }
-    
+
     for (var i in feedSites) {
         /* Assume sites are available */
         feedSites[i].available = true;
         getFeedbyindex(i);
     }
-    
+
     /* Update for every 200000ms */
     setTimeout(getFeed, 200000);
 }
@@ -63,7 +63,7 @@ function getFeedbyindex(i)
             var title = el.find("title").text();
             var link = el.find('link').text()
             var time = el.find('pubDate').text();
-            
+
             if(!title || !link) {
                 feedSites[i].available = false;
                 return;
@@ -86,7 +86,7 @@ function getFeedbyindex(i)
                             feeds.sort(function (a, b) {
                                 return b.time - a.time;
                             });
-                            crawlerDone = true;
+                            crawlerDoneBG = true;
                         }
                     });
                 } else {
@@ -96,7 +96,7 @@ function getFeedbyindex(i)
             });
         });
     },
-    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
         console.log("Something wrong happened!");
             feedSites[i].available = false;
     }});
@@ -104,7 +104,7 @@ function getFeedbyindex(i)
 
 chrome.extension.onMessage.addListener( function(message, sender, sendResponse) {
     if(message.what == "getFeed") {
-        sendResponse({what:"getFeed", crawlerDone:crawlerDone, rss: feeds, size: feedSize, Sites: feedSites});
+        sendResponse({what:"getFeed", crawlerDone:crawlerDoneBG, rss: feeds, size: feedSize, Sites: feedSites});
     } else if (message.what == "getNewFeed") {
         feedSites = feedSites.concat(message.newFeed);
         storeUserPrefs();
@@ -124,8 +124,8 @@ function getImageMeta(url, callback)
 {
     var img = new Image();
     img.src = url;
-    img.onload = function() { 
-        callback(img.width, img.height); 
+    img.onload = function() {
+        callback(img.width, img.height);
     }
 }
 
@@ -139,7 +139,7 @@ function userPrefsInit()
 function storeUserPrefs()
 {
     var LXRSS = JSON.stringify({"feedSites": feedSites});
-    chrome.storage.sync.set({LXRSS: LXRSS}, function() { 
+    chrome.storage.sync.set({LXRSS: LXRSS}, function() {
         if(chrome.runtime.lastError) {
             console.error(chrome.runtime.lastError);
         }

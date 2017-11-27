@@ -16,10 +16,9 @@ var maxRowWidth = window.innerWidth * 0.9;
 var maxRowHeight = window.innerHeight * 0.3;
 var marginSize = window.innerWidth * 0.01;
 
-var timer;
-
 getFeedSites();
 retryGetFeed();
+setTimeout(retryGetFeed, 2000);
 
 function getFeedSites() {
     chrome.extension.sendMessage({ what: "getFeed" }, function (response) {
@@ -34,7 +33,7 @@ function retryGetFeed() {
     chrome.extension.sendMessage({ what: "getFeed" }, function (response) {
 
         if (response.what == "getFeed") {
-            if (response.crawlerDone == true) {
+            if (response.crawlerDone === true) {
                 /* rss is enough to display */
                 feeds = response.rss;
                 feedSites = response.Sites;
@@ -43,13 +42,13 @@ function retryGetFeed() {
                     /*  When Chrome is onLoad at first time, js non-blocking will cause fucking null
                      *  value, this is preventing the null value by doing retryGetFeed again.
                      */
-                    timer = setTimeout(retryGetFeed, 500);
+                    setTimeout(retryGetFeed, 500);
                 }
             } else {
                 /* rss is not enough to display, retry */
                 feeds = response.rss;
                 feedSites = response.Sites;
-                timer = setTimeout(retryGetFeed, 500);
+                //                 setTimeout(retryGetFeed, 500);
             }
         }
         renderArticles();
@@ -67,7 +66,7 @@ function renderArticles() {
             }).indexOf(site);
             if (index !== -1) {
                 chrome.extension.sendMessage({ what: "getNewClick", Sites: feedSites }, function (response) {
-                    setTimeout(getFeedSites, 100);
+                    setTimeout(getFeedSites, 500);
                 });
             }
         },
@@ -76,7 +75,7 @@ function renderArticles() {
                 /*  When Chrome is onLoad at first time, js non-blocking will cause fucking null
                  *  value, this is preventing the null value by doing retryGetFeed again.
                  */
-                timer = setTimeout(retryGetFeed, 500);
+                setTimeout(retryGetFeed, 500);
                 setTimeout(getFeedSites, 500);
                 return null;
             }
@@ -153,7 +152,7 @@ function renderControlPanel() {
                 /*  When Chrome is onLoad at first time, js non-blocking will cause fucking null
                  *  value, this is preventing the null value by doing retryGetFeed again.
                  */
-                timer = setTimeout(retryGetFeed, 500);
+                setTimeout(retryGetFeed, 500);
                 setTimeout(getFeedSites, 500);
                 return null;
             }
@@ -344,7 +343,6 @@ document.querySelector("#sidebarRemove").onclick = function (e) {
             }
         }
         renderControlPanel();
-        clearTimeout(timer);
         chrome.extension.sendMessage({ what: "removeFeed", Sites: feedSites }, function (response) {
             retryGetFeed();
         });

@@ -17,10 +17,9 @@ var maxRowWidth  = window.innerWidth * 0.9;
 var maxRowHeight = window.innerHeight * 0.3;
 var marginSize = window.innerWidth * 0.01;
 
-var timer;
-
 getFeedSites();
 retryGetFeed();
+setTimeout(retryGetFeed, 2000); // Do it twice in case the feed is not ready
 
 function getFeedSites()
 {
@@ -37,7 +36,7 @@ function retryGetFeed()
     chrome.extension.sendMessage({what: "getFeed"}, function(response) {
 
         if (response.what == "getFeed") {
-            if (response.crawlerDone == true) {
+            if (response.crawlerDone === true) {
                 /* rss is enough to display */
                 feeds = response.rss;
                 feedSites = response.Sites;
@@ -46,13 +45,13 @@ function retryGetFeed()
                     /*  When Chrome is onLoad at first time, js non-blocking will cause fucking null
                      *  value, this is preventing the null value by doing retryGetFeed again.
                      */
-                    timer = setTimeout(retryGetFeed, 500);
+                    setTimeout(retryGetFeed, 500);
                 }
             } else {
                 /* rss is not enough to display, retry */
                 feeds = response.rss;
                 feedSites = response.Sites;
-                timer = setTimeout(retryGetFeed, 500);
+//                 setTimeout(retryGetFeed, 500);
             }
         }
         renderArticles();
@@ -61,11 +60,11 @@ function retryGetFeed()
 function renderArticles() {
     var ArticleComponent = React.createClass({
         handleClick: function(site) {
-            
+
             var index = feedSites.map(function(obj) { return obj.site; }).indexOf(site);
             if (index !== -1) {
                 chrome.extension.sendMessage({ what: "getNewClick", Sites: feedSites }, function(response) {
-                    setTimeout(getFeedSites, 100);
+                    setTimeout(getFeedSites, 500);
                 });
             }
         },
@@ -74,7 +73,7 @@ function renderArticles() {
                 /*  When Chrome is onLoad at first time, js non-blocking will cause fucking null
                  *  value, this is preventing the null value by doing retryGetFeed again.
                  */
-                timer = setTimeout(retryGetFeed, 500);
+                setTimeout(retryGetFeed, 500);
                 setTimeout(getFeedSites, 500);
                 return null;
             }
@@ -123,15 +122,15 @@ function renderArticles() {
     );
 }
 
-function renderControlPanel() 
+function renderControlPanel()
 {
     var TableComponent = React.createClass({
         handleClick: function() {
-            var checkboxs = document.querySelectorAll("input[type='checkbox']"); 
-            var checkOrNot = document.querySelector("#selectAllCheckbox").checked; 
+            var checkboxs = document.querySelectorAll("input[type='checkbox']");
+            var checkOrNot = document.querySelector("#selectAllCheckbox").checked;
             for(var i = 0; i < checkboxs.length; i++) {
                 checkboxs[i].checked = checkOrNot;
-            } 
+            }
             return false;
         },
         render: function() {
@@ -139,7 +138,7 @@ function renderControlPanel()
                 /*  When Chrome is onLoad at first time, js non-blocking will cause fucking null
                  *  value, this is preventing the null value by doing retryGetFeed again.
                  */
-                timer = setTimeout(retryGetFeed, 500);
+                setTimeout(retryGetFeed, 500);
                 setTimeout(getFeedSites, 500);
                 return null;
             }
@@ -224,23 +223,23 @@ document.querySelector("#sidebarExportSubmit").onclick = function(e) {
     for (var i = 1; i < feedSites.length; i++) {
         textToSave += "\n" + feedSites[i].site;
     }
-    
+
     var textToSaveAsBlob = new Blob([textToSave], {type:"text/plain"});
     var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
     var fileNameToSaveAs = "LXRSS.txt";
- 
+
     var downloadLink = document.createElement("a");
     downloadLink.download = fileNameToSaveAs;
     downloadLink.innerHTML = "Download File";
     downloadLink.href = textToSaveAsURL;
     downloadLink.style.display = "none";
-    
+
     /*
     downloadLink.onclick = function(event){
         document.body.removeChild(event.target);
     };
     document.body.appendChild(downloadLink);*/
- 
+
     downloadLink.click();
     return false;
 };
@@ -262,13 +261,13 @@ document.querySelector("#sidebarAddSubmit").onclick = function(e) {
             getFeedSites();
         });
     }
-    
+
     return false;
 };
 
 document.querySelector("#sidebarRemove").onclick = function(e) {
     if (feeds.length != 0) {
-        var checkboxs = document.querySelectorAll("input[type='checkbox']"); 
+        var checkboxs = document.querySelectorAll("input[type='checkbox']");
         for(var i = 1; i < checkboxs.length; i++) {
             if (checkboxs[i].checked) {
                 var site = checkboxs[i].getAttribute("data-site");
@@ -279,7 +278,6 @@ document.querySelector("#sidebarRemove").onclick = function(e) {
             }
         }
         renderControlPanel();
-        clearTimeout(timer);
         chrome.extension.sendMessage({what: "removeFeed", Sites: feedSites}, function(response) {
             retryGetFeed();
         });
@@ -311,7 +309,7 @@ function resizeImage(index, num)
 {
     var rowHeight = feeds[index].height;
     var rowWidth  = feeds[index].width;
-    
+
     for (var i = index+1; i < index+num; i++) {
         rowWidth += feeds[i].width * rowHeight / feeds[i].height;
     }
