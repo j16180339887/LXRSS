@@ -18,7 +18,7 @@ var marginSize = window.innerWidth * 0.01;
 
 getFeedSites();
 retryGetFeed();
-setTimeout(retryGetFeed, 2000);
+setTimeout(retryGetFeed, 2000); // Do it twice in case the feed is not ready
 
 function getFeedSites() {
     chrome.extension.sendMessage({ what: "getFeed" }, function (response) {
