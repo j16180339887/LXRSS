@@ -20,6 +20,7 @@ var marginSize = window.innerWidth * 0.01;
 getFeedSites();
 retryGetFeed();
 setTimeout(retryGetFeed, 2000); // Do it twice in case the feed is not ready
+setTimeout(retryGetFeed, 5000); // Do it three times in case the feed is not ready
 
 function getFeedSites()
 {
