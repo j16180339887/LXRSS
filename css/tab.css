@@ -49,7 +49,7 @@ aside {
     height: 3vh;
 }
 
-.imgContainer { 
+.imgContainer {
     height: 20vmin;
     width: 40vmin;
     word-wrap: break-word;
@@ -72,7 +72,11 @@ img {
     left: 0;
     right: 0;
     bottom: 0;
-    opacity: 0.6;
+    opacity: 0.6; /* Make img backgroud color transparent*/
+}
+
+img:hover{
+    opacity: 1;
 }
 
 /* Text */
