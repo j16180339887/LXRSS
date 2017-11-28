@@ -323,7 +323,9 @@ document.querySelector("#sidebarAddSubmit").onclick = function (e) {
             feeds = response.rss;
             retryGetFeed();
             getFeedSites();
+            setTimeout(retryGetFeed, 1500); // Do it twice in case the feed is not ready
             setTimeout(renderArticles, 2000); // Do it twice in case the feed is not ready
+            setTimeout(retryGetFeed, 4500); // Do it three times in case the feed is not ready
             setTimeout(renderArticles, 5000); // Do it three times in case the feed is not ready
         });
     }
