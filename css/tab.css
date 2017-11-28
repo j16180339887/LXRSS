@@ -60,7 +60,8 @@ aside {
     margin: 0 0 0 0;
     text-align: left;
     font-size: 120%;
-/*    overflow: hidden;*/
+    overflow: hidden;       /* Prevent long title */
+    text-overflow: ellipsis; /* Prevent long title */
 }
 
 img {
