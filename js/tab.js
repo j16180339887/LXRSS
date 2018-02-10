@@ -16,10 +16,14 @@ var maxRowWidth = window.innerWidth * 0.9;
 var maxRowHeight = window.innerHeight * 0.3;
 var marginSize = window.innerWidth * 0.01;
 
+/* Smart retrying */
+var maxRery = 4;
+var cacheFLenth = -1;
+
 getFeedSites();
 retryGetFeed();
-setTimeout(retryGetFeed, 2000); // Do it twice in case the feed is not ready
-setTimeout(retryGetFeed, 5000); // Do it three times in case the feed is not ready
+// setTimeout(retryGetFeed, 2000); // Do it twice in case the feed is not ready
+// setTimeout(retryGetFeed, 5000); // Do it three times in case the feed is not ready
 
 function getFeedSites() {
     chrome.extension.sendMessage({ what: "getFeed" }, function (response) {
@@ -47,9 +51,18 @@ function retryGetFeed() {
                 }
             } else {
                 /* rss is not enough to display, retry */
+                if (maxRery <= 0) return;
+
+                if (cacheFLenth === -1) {
+                    cacheFLenth = response.rss.length;
+                } else if (cacheFLenth === response.rss.length) {
+                    maxRery--;
+                }
+                cacheFLenth = response.rss.length;
                 feeds = response.rss;
                 feedSites = response.Sites;
-                //                 setTimeout(retryGetFeed, 500);
+                console.log(maxRery, cacheFLenth, response.rss.length);
+                setTimeout(retryGetFeed, 500);
             }
         }
         renderArticles();
