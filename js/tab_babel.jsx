@@ -64,7 +64,6 @@ function retryGetFeed()
                 cacheFLenth = response.rss.length;
                 feeds = response.rss;
                 feedSites = response.Sites;
-                console.log(maxRery, cacheFLenth, response.rss.length);
                 setTimeout(retryGetFeed, 500);
             }
         }
