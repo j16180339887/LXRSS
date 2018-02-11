@@ -60,14 +60,15 @@ function retryGetFeed()
                     cacheFLenth = response.rss.length;
                 } else if (cacheFLenth === response.rss.length) {
                     maxRery--;
+                    return;
                 }
                 cacheFLenth = response.rss.length;
                 feeds = response.rss;
                 feedSites = response.Sites;
                 setTimeout(retryGetFeed, 500);
+                renderArticles();
             }
         }
-        renderArticles();
 });}
 
 function renderArticles() {
