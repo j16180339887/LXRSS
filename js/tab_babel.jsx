@@ -18,7 +18,8 @@ var maxRowHeight = window.innerHeight * 0.3;
 var marginSize = window.innerWidth * 0.01;
 
 /* Smart retrying */
-var maxRery = 15;
+var MaxRery = 15;
+var maxRery = MaxRery;
 var cacheFLenth = -1;
 
 getFeedSites();
@@ -52,6 +53,7 @@ function retryGetFeed()
                      */
                     setTimeout(retryGetFeed, 500);
                 }
+                renderArticles();
             } else {
                 /* rss is not enough to display, retry */
                 if (maxRery <= 0) return;
@@ -62,6 +64,7 @@ function retryGetFeed()
                     maxRery--;
                     return;
                 }
+                maxRery = MaxRery;
                 cacheFLenth = response.rss.length;
                 feeds = response.rss;
                 feedSites = response.Sites;
