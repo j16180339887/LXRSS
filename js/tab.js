@@ -17,7 +17,7 @@ var maxRowHeight = window.innerHeight * 0.3;
 var marginSize = window.innerWidth * 0.01;
 
 /* Smart retrying */
-var maxRery = 4;
+var maxRery = 15;
 var cacheFLenth = -1;
 
 getFeedSites();
