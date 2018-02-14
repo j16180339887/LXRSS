@@ -80,7 +80,8 @@ function getFeedbyindex(i)
                 var w = 0, h = 0;
                 if(imageUrl) {
                     getImageMeta(imageUrl, function(width, height) {
-                        feeds.push(new Feed(title, link, imageUrl, time, feedSites[i].site, width, height));
+                        /* Use union function in ES6 */
+                        feeds = [...new Set([...feeds, ...[new Feed(title, link, imageUrl, time, feedSites[i].site, width, height)]])]
                         if (feeds.length == feedSize) {
                             /* When jobs all done */
                             feeds.sort(function (a, b) {
@@ -91,7 +92,7 @@ function getFeedbyindex(i)
                     });
                 } else {
                     /* If artical does not provide image */
-                    feeds.push(new Feed(title, link, imageUrl, time, feedSites[i].site, 100, 100));
+                    feeds = [...new Set([...feeds, ...[new Feed(title, link, imageUrl, time, feedSites[i].site, 100, 100)]])]
                 }
             });
         });
