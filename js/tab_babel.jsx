@@ -339,7 +339,18 @@ function initSize()
     maxRowWidth  = window.innerWidth * 0.9;
     maxRowHeight = window.innerHeight * 0.3;
     marginSize = window.innerWidth * 0.01;
-    fontSize = window.innerWidth * 0.01;
+
+    if (window.innerWidth > window.innerHeight) {
+        maxRowImage = 5;
+        minRowImage = 2;
+        maxRowNumber = 5;
+        fontSize = window.innerWidth * 0.01;
+    } else {
+        maxRowImage = 1;
+        minRowImage = 1;
+        maxRowNumber = 5;
+        fontSize = window.innerWidth * 0.03;
+    }
 }
 
 function resizeImage(index, num)
