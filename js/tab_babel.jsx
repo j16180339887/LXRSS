@@ -13,15 +13,16 @@ var minRowImage = 2;
 var maxRowNumber = 5;
 
 /* the max width and height in one row */
-var maxRowWidth  = window.innerWidth * 0.9;
-var maxRowHeight = window.innerHeight * 0.3;
-var marginSize = window.innerWidth * 0.01;
+var maxRowWidth  = 0;
+var maxRowHeight = 0;
+var marginSize = 0;
 
 /* Smart retrying */
 var MaxRery = 15;
 var maxRery = MaxRery;
 var cacheFLenth = -1;
 
+initSize();
 getFeedSites();
 retryGetFeed();
 // setTimeout(retryGetFeed, 2000); // Do it twice in case the feed is not ready
@@ -324,6 +325,19 @@ window.onscroll = function(e) {
         maxRowNumber += 5;
         renderArticles();
     }
+}
+
+window.onresize = function(e) {
+    initSize();
+    renderArticles();
+    renderControlPanel();
+};
+
+function initSize()
+{
+    maxRowWidth  = window.innerWidth * 0.9;
+    maxRowHeight = window.innerHeight * 0.3;
+    marginSize = window.innerWidth * 0.01;
 }
 
 function resizeImage(index, num)
