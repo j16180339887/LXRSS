@@ -16,6 +16,7 @@ var maxRowNumber = 5;
 var maxRowWidth  = 0;
 var maxRowHeight = 0;
 var marginSize = 0;
+var fontSize = 0;
 
 /* Smart retrying */
 var MaxRery = 15;
@@ -113,13 +114,13 @@ function renderArticles() {
                     height = resizeImage(i, ++rowSize);
                 }
                 if(rowSize < maxRowImage && height > maxRowHeight && i < feeds.length) {
-                    /* Handling height if Articles is running out */
+                    /* Handling height if Articles are running out */
                     height = maxRowHeight;
                 }
                 for (var n = 0; n < rowSize && i < feeds.length; n++) {
                     rows.push(
                         <figure style={{"height": height, "width": feeds[i].width * height / feeds[i].height, "margin-bottom": marginSize, "margin-right": marginSize}} className="imgContainer" onClick={this.handleClick.bind(this, feeds[i].site)} >
-                            <a href={feeds[i].url} target="_blank">
+                            <a href={feeds[i].url} style={{"font-size": fontSize}} target="_blank">
                                 <img src={feeds[i].img} border="0"/>
                                 <h2>{feeds[i].title}</h2>
                             </a>
@@ -338,6 +339,7 @@ function initSize()
     maxRowWidth  = window.innerWidth * 0.9;
     maxRowHeight = window.innerHeight * 0.3;
     marginSize = window.innerWidth * 0.01;
+    fontSize = window.innerWidth * 0.01;
 }
 
 function resizeImage(index, num)

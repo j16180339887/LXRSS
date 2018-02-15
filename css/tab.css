@@ -59,7 +59,7 @@ aside {
     display: inline-block;
     margin: 0 0 0 0;
     text-align: left;
-    font-size: 120%;
+/*     font-size: 120%; */
     overflow: hidden;       /* Prevent long title */
     text-overflow: ellipsis; /* Prevent long title */
 }
