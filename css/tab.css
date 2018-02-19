@@ -64,6 +64,12 @@ aside {
     text-overflow: ellipsis; /* Prevent long title */
 }
 
+.imgContainer:hover h2, .imgContainer:focus h2  {
+    color: #66D9EF;
+    text-shadow: 0 0 20px black;
+}
+
+
 img {
     width: 100%;
     height: 100%;
@@ -76,9 +82,9 @@ img {
     opacity: 0.6; /* Make img backgroud color transparent*/
 }
 
-img:hover{
-    opacity: 1;
-}
+/* img:hover{ */
+/*     opacity: 1; */
+/* } */
 
 /* Text */
 h1, h2, h3, h4, h5, h6 {
