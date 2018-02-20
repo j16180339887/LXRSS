@@ -5,7 +5,7 @@ Install babel
 
 Compile babel code to js
 ====
-* babel js/tab_babel.jsx --out-file js/tab.js
+* babel jsx/tab_babel.jsx --out-file js/tab.js
 
 Background
 =====
@@ -15,6 +15,6 @@ Background
 
 Tab
 =====
-* tab.html, tab.js(/tab_babel.jsx)
+* tab.html, tab.js
 * Displayed when a new tab opened
 * Use reactjs as viewer and get news from background.js
