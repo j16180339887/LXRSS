@@ -42,8 +42,14 @@ function getFeed()
         getFeedbyindex(i);
     }
 
-    /* Update for every 200000ms */
-    setTimeout(getFeed, 200000);
+    var connection = feeds.filter(f => f.available === true);
+    if (connection.length === 0) {
+        // No internet connection, retrying after 10s
+        setTimeout(getFeed, 10000);
+    } else {
+        /* Update for every 200000ms */
+        setTimeout(getFeed, 200000);
+    }
 }
 
 function getFeedbyindex(i)
