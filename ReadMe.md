@@ -18,3 +18,8 @@ Tab
 * tab.html, tab.js
 * Displayed when a new tab opened
 * Use reactjs as viewer and get news from background.js
+
+## TODO
+
+Import/Export OPML format
+
