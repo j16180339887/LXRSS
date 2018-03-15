@@ -58,7 +58,11 @@ function retryGetFeed()
                 renderArticles();
             } else {
                 /* rss is not enough to display, retry */
-                if (maxRery <= 0) return;
+                if (maxRery <= 0) {
+                    /* Retrying after 110 sec */
+                    setTimeout(retryGetFeed, 110000);
+                    return;
+                }
 
                 if (cacheFLenth === -1) {
                     cacheFLenth = response.rss.length;
