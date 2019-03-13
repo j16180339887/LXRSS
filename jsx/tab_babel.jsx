@@ -125,7 +125,11 @@ function renderArticles() {
                     rows.push(
                         <figure style={{"height": height, "width": feeds[i].width * height / feeds[i].height, "margin-bottom": marginSize, "margin-right": marginSize}} className="imgContainer" onClick={this.handleClick.bind(this, feeds[i].site)} >
                             <a href={feeds[i].url} style={{"font-size": fontSize}} target="_blank">
-                                <img src={feeds[i].img} border="0"/>
+                                {
+                                    feeds[i].img ?
+                                    (<img src={feeds[i].img} border="0"/> ) :
+                                    (<p> </p> )
+                                }
                                 <h2>{feeds[i].title}</h2>
                             </a>
                         </figure>

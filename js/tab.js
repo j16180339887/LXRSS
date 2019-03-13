@@ -130,7 +130,11 @@ function renderArticles() {
                         React.createElement(
                             "a",
                             { href: feeds[i].url, style: { "font-size": fontSize }, target: "_blank" },
-                            React.createElement("img", { src: feeds[i].img, border: "0" }),
+                            feeds[i].img ? React.createElement("img", { src: feeds[i].img, border: "0" }) : React.createElement(
+                                "p",
+                                null,
+                                " "
+                            ),
                             React.createElement(
                                 "h2",
                                 null,
