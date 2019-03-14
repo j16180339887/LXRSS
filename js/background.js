@@ -77,11 +77,8 @@ function getFeedbyindex(i)
                 var html =  document.createElement('html');
                 html.innerHTML = data;
                 var ogimage = html.querySelector("meta[property='og:image']")
-                var imageUrl = ogimage ? ogimage.getAttribute("content") : null
-                if (!imageUrl) {
-                    var firstImg = html.querySelector("img")
-                    imageUrl = firstImg ? firstImg.getAttribute("src") : null
-                }
+                var firstImg = html.querySelector("img")
+                var imageUrl = ogimage ? ogimage.getAttribute("content") : firstImg ? firstImg.getAttribute("src") : null
                 var w = 0, h = 0;
                 if(imageUrl) {
                     imageUrl = (! /^http/.test(imageUrl)) ? window.location.hostname+imageUrl : imageUrl
