@@ -81,21 +81,59 @@ function getFeedbyindex(i)
                 var imageUrl = ogimage ? ogimage.getAttribute("content") : firstImg ? firstImg.getAttribute("src") : null
                 var w = 0, h = 0;
                 if(imageUrl) {
-                    imageUrl = (! /^http/.test(imageUrl)) ? window.location.hostname+imageUrl : imageUrl
-                    getImageMeta(imageUrl, function(width, height) {
-                        /* Use union function in ES6 */
-                        var search = feeds.filter(f => f.url === link);
-                        if (search.length === 0) {
-                            feeds.push(new Feed(title, link, imageUrl, time, feedSites[i].site, width, height));
-                        }
-                        if (feeds.length == feedSize) {
-                            /* When jobs all done */
-                            feeds.sort(function (a, b) {
-                                return b.time - a.time;
-                            });
-                            crawlerDoneBG = true;
-                        }
-                    });
+                    imageUrl = imageUrl.trim()
+                    /* Get real hostname https://stackoverflow.com/a/26750780 */
+                    if (! /^http/.test(imageUrl)) {
+                        var xhr;
+                        var _orgAjax = $.ajaxSettings.xhr;
+                        $.ajaxSettings.xhr = function () {
+                          xhr = _orgAjax();
+                          return xhr;
+                        };
+                        $.ajax(link, {
+                            success: function(responseText) {
+                                // console.log('responseURL:', xhr.responseURL, 'responseText:', responseText);
+                                // console.log("Bad image: " + imageUrl)
+                                // console.log("Bad image link: " + link)
+                                var resUrl = xhr.responseURL || link
+                                var url = document.createElement('a');
+                                url.setAttribute('href', resUrl);
+                                // console.log(url)
+                                imageUrl = url.protocol + "//" + url.hostname + imageUrl
+                                // console.log("Real image:"  + imageUrl)
+                                getImageMeta(imageUrl, function(width, height) {
+                                    /* Use union function in ES6 */
+                                    var search = feeds.filter(f => f.url === link);
+                                    if (search.length === 0) {
+                                        feeds.push(new Feed(title, link, imageUrl, time, feedSites[i].site, width, height));
+                                    }
+                                    if (feeds.length == feedSize) {
+                                        /* When jobs all done */
+                                        feeds.sort(function (a, b) {
+                                            return b.time - a.time;
+                                        });
+                                        crawlerDoneBG = true;
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        getImageMeta(imageUrl, function(width, height) {
+                            /* Use union function in ES6 */
+                            // console.log("Good image: " + imageUrl)
+                            var search = feeds.filter(f => f.url === link);
+                            if (search.length === 0) {
+                                feeds.push(new Feed(title, link, imageUrl, time, feedSites[i].site, width, height));
+                            }
+                            if (feeds.length == feedSize) {
+                                /* When jobs all done */
+                                feeds.sort(function (a, b) {
+                                    return b.time - a.time;
+                                });
+                                crawlerDoneBG = true;
+                            }
+                        });
+                    }
                 } else {
                     /* If the artical does not provide an image */
                     var search = feeds.filter(f => f.url === link);
