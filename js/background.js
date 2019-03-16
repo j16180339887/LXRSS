@@ -74,8 +74,12 @@ function getFeedbyindex(i)
                     feedSites[i].available = false;
                     return;
                 }
-                var html =  document.createElement('html');
-                html.innerHTML = data;
+                var html =  document.createElement('html')
+                try {
+                    html.innerHTML = data;
+                } catch (e) {
+                    // Ignore net::ERR_FILE_NOT_FOUND
+                }
                 var ogimage = html.querySelector("meta[property='og:image']")
                 var firstImg = html.querySelector("img")
                 var imageUrl = ogimage ? ogimage.getAttribute("content") : firstImg ? firstImg.getAttribute("src") : null
