@@ -19,8 +19,8 @@ var marginSize = 0;
 var fontSize = 0;
 
 /* Smart retrying */
-var MaxRery = 15;
-var maxRery = MaxRery;
+var MaxRetry = 15;
+var maxRetry = MaxRetry;
 var cacheFLenth = -1;
 
 initSize();
@@ -58,7 +58,7 @@ function retryGetFeed()
                 renderArticles();
             } else {
                 /* rss is not enough to display, retry */
-                if (maxRery <= 0) {
+                if (maxRetry <= 0) {
                     /* Retrying after 110 sec */
                     setTimeout(retryGetFeed, 110000);
                     return;
@@ -67,10 +67,10 @@ function retryGetFeed()
                 if (cacheFLenth === -1) {
                     cacheFLenth = response.rss.length;
                 } else if (cacheFLenth === response.rss.length) {
-                    maxRery--;
+                    maxRetry--;
                     return;
                 }
-                maxRery = MaxRery;
+                maxRetry = MaxRetry;
                 cacheFLenth = response.rss.length;
                 feeds = response.rss;
                 feedSites = response.Sites;
