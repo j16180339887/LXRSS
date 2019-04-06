@@ -52,7 +52,6 @@ function getFeedbyindex(i)
     type: 'GET',
     url: feedSites[i].site,
     success: function(data) {
-        data = data.replace(/\/<\/link/g, '</link');
         var items = $(data).find("item");
         if(items.length === 0) {
             items = $(data).find("entry");
