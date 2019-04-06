@@ -48,20 +48,24 @@ function getFeed()
 
 function getFeedbyindex(i)
 {
+    console.log("start")
     $.ajax({
     type: 'GET',
     url: feedSites[i].site,
     success: function(data) {
         var items = $(data).find("item");
         if(items.length === 0) {
-            feedSites[i].available = false;
-            return;
+            items = $(data).find("entry");
+            if (items.length === 0) {
+                feedSites[i].available = false
+                return
+            }
         }
         feedSize += items.length;
         items.each(function () {
             var el = $(this);
             var title = el.find("title").text();
-            var link = el.find('link').text()
+            var link = el.find('link').text() || el.find('link').attr("href")
             var time = el.find('pubDate').text();
 
             if(!title || !link) {
@@ -150,7 +154,8 @@ function getFeedbyindex(i)
     },
     error: function(XMLHttpRequest, textStatus, errorThrown) {
         console.log("Something wrong happened!");
-            feedSites[i].available = false;
+        console.log(errorThrown)
+        feedSites[i].available = false;
     }});
 }
 
