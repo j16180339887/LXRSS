@@ -48,11 +48,11 @@ function getFeed()
 
 function getFeedbyindex(i)
 {
-    console.log("start")
     $.ajax({
     type: 'GET',
     url: feedSites[i].site,
     success: function(data) {
+        data = data.replace(/\/<\/link/g, '</link');
         var items = $(data).find("item");
         if(items.length === 0) {
             items = $(data).find("entry");
@@ -65,7 +65,7 @@ function getFeedbyindex(i)
         items.each(function () {
             var el = $(this);
             var title = el.find("title").text();
-            var link = el.find('link').text() || el.find('link').attr("href")
+            var link = el.find('link').text() || el.find('link').attr("href") || el[0].innerHTML.match(/<link>.*>?/)[0].replace("<link>", "").replace(">", "")
             var time = el.find('pubDate').text();
 
             if(!title || !link) {
