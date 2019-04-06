@@ -64,8 +64,8 @@ function getFeedbyindex(i)
         items.each(function () {
             var el = $(this);
             var title = el.find("title").text();
-            var link = el.find('link').text() || el.find('link').attr("href") || el[0].innerHTML.match(/<link>.*>?/)[0].replace("<link>", "").replace(">", "")
-            var time = el.find('pubDate').text();
+            var link = el.find('link').text() || el.find('link[type="text/html"]').attr("href") || el.find('link').attr("href") || el[0].innerHTML.match(/<link>.*>?/)[0].replace("<link>", "").replace(">", "")
+            var time = el.find('pubDate').text() || el.find('published').text()
 
             if(!title || !link) {
                 feedSites[i].available = false;
@@ -117,7 +117,7 @@ function getFeedbyindex(i)
                                     if (feeds.length == feedSize) {
                                         /* When jobs all done */
                                         feeds.sort(function (a, b) {
-                                            return b.time - a.time;
+                                            return new Date(b.time).getTime() - new Date(a.time).getTime()
                                         });
                                         crawlerDoneBG = true;
                                     }
