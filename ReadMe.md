@@ -1,3 +1,9 @@
+A RSS reader extension made for Chromium-based browsers.
+
+![Screenshot 1](./img/Screenshot1.png)
+
+![Screenshot 2](./img/Screenshot2.png)
+
 Install babel
 =====
 * npm install --global babel-cli
