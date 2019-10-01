@@ -1,5 +1,7 @@
 A RSS reader extension made for Chromium-based browsers.
 
+React Native port https://github.com/joeky888/RssNewsMan
+
 ![Screenshot 1](./img/Screenshot1.png)
 
 ![Screenshot 2](./img/Screenshot2.png)
