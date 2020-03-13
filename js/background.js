@@ -63,7 +63,8 @@ function getFeedbyindex(i) {
             feedSize += items.length;
             items.each(function () {
                 var el = $(this);
-                var title = el.find("title").text();
+                var strmap = {amp: '&', lt: '<', gt: '>', quot: '"', '#039': "'"}
+                var title = el.find("title").text().replace(/&([^;]+);/g, (m, c) => strmap[c]);
                 var link = el.find('link').text() || el.find('link[type="text/html"]').attr("href") || el.find('link').attr("href") || el[0].innerHTML.match(/<link>.*>?/)[0].replace("<link>", "").replace(">", "")
                 var time = el.find('pubDate').text() || el.find('published').text()
 
